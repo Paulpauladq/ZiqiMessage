@@ -1,7 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const Post = require('./models/post');
 
 const app = express();
+
+mongoose.connect("mongodb+srv://paultzq:ls9YuhTg3yFisdhM@ziqicluster.buubi.mongodb.net/node-angular?retryWrites=true&w=majority")
+  .then(() => {
+    console.log('Connected to datbase!');
+  })
+  .catch(() => {
+    console.log('Connected failed!');
+  }) ;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -14,23 +25,38 @@ app.use((req, res, next) => {
 })
 
 app.post('/api/posts', (req, res, next) => {
-  const post = req.body;
-  console.log(post);
-  res.status(201).json({
-    message: 'Post added successfully!'
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content,
+  });
+
+  post.save()
+    .then(createdPost => {
+      res.status(201).json({
+        message: 'Post added successfully!',
+        postId: createdPost._id
+      });
+    });
+
+});
+
+app.get("/api/posts", (req, res, next) => {
+  Post.find().then(documents => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents
+    });
   });
 });
 
-app.get('/api/posts', (req, res, next) => {
-  const posts = [
-    {id: 'dsadas', title: 'first server-side post', content: 'This comes from the server.'},
-    {id: 'sdfsf', title: 'second server-side post', content: 'This comes from the server!!'}
-  ];
-
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: posts
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
+    res.status(200).json({ message: "Post deleted!" });
   });
 });
 
 module.exports = app;
+
+
+
