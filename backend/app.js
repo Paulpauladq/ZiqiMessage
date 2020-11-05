@@ -8,7 +8,7 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 
-mongoose.connect("mongodb+srv://paultzq:ls9YuhTg3yFisdhM@ziqicluster.buubi.mongodb.net/node-angular")
+mongoose.connect("mongodb+srv://paultzq:" + process.env.MONGO_ATLAS_PW + "@ziqicluster.buubi.mongodb.net/node-angular")
   .then(() => {
     console.log('Connected to datbase!');
   })
