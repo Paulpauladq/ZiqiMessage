@@ -13,3 +13,7 @@ The app is deployed on AWS Elastic Beanstalk server.
 ## app link
 
 http://myforum-env.eba-zis3sm3u.us-east-2.elasticbeanstalk.com/
+
+## author
+
+The app is written by Ziqi Tang.
