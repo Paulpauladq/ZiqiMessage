@@ -12,6 +12,8 @@ The app is deployed on AWS Elastic Beanstalk server.
 
 ## app link
 
+Entering the following link using the browser will redirect to the app: 
+
 http://myforum-env.eba-zis3sm3u.us-east-2.elasticbeanstalk.com/
 
 ## author
